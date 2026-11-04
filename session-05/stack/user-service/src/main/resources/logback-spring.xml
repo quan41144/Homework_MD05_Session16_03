@@ -1,17 +1,11 @@
 <configuration>
-    <!-- Thay đổi class sang RollingFileAppender -->
+    <!-- Ghi log ra file cuộn -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/app.log</file>
         
-        <!-- Cấu hình chính sách cuộn file theo thời gian và dung lượng -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- Định dạng tên file khi cuộn (thêm %d cho ngày tháng và %i cho số thứ tự) -->
             <fileNamePattern>logs/app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            
-            <!-- Dung lượng tối đa của một file trước khi bị cắt sang file mới (.0, .1) -->
             <maxFileSize>10MB</maxFileSize>
-            
-            <!-- Giữ lại tối đa lịch sử log trong 30 ngày, log cũ hơn sẽ bị xóa -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         
@@ -20,7 +14,14 @@
         </encoder>
     </appender>
     
+    <!-- Ghi log ra console định dạng JSON -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
+    <!-- Gộp chung cấu hình root logger -->
     <root level="INFO">
         <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" />
     </root>
 </configuration>
